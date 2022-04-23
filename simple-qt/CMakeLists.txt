@@ -25,3 +25,10 @@ add_executable(simple_qt
 target_link_libraries(simple_qt
                 Qt5::Core
 )
+
+install(
+    TARGETS ${PROJECT_NAME}
+    RUNTIME
+        DESTINATION bin
+        COMPONENT runtime
+)
