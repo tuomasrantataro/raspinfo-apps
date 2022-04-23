@@ -20,7 +20,6 @@ find_package(Qt5 COMPONENTS Core REQUIRED)
 add_compile_options(-Wall)
 
 add_executable(simple_qt 
-    app.cpp
     main.cpp)
 
 target_link_libraries(simple_qt
