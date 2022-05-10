@@ -10,13 +10,14 @@ def _remove_past_events(events):
     Returns a list of dicts with only current and future events.'''
     raise NotImplementedError
 
-def _transform_timestamp(timestamp, offset):
+def _transform_timestamp(timestamp, offset="00:00"):
     '''Transforms timestamps to standard form and UTC time.
     
     The iCal format accepts many different time representations.
     Change them all to a single standard for easier future use.
     The format used is "2012-04-23T18:25:43.511Z", which is commonly
-    in use and follows ISO 8601.
+    in use and follows ISO 8601. Offset (from timezone and DST) should
+    be in format "±HH:MM"
     
     Returns timestamp as a string.'''
     raise NotImplementedError
