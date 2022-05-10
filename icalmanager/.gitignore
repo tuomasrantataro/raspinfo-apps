@@ -1,0 +1,7 @@
+.venv
+.vscode
+src/__pycache__
+test/__pycache__
+test/log.html
+test/output.xml
+test/report.html
