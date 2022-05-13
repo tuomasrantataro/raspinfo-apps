@@ -34,7 +34,23 @@ def _sanitize_text(input):
     form.
     
     Returns the sanitized text as a string.'''
-    raise NotImplementedError
+    ret = ""
+    prev = ''
+    prev2 = ''
+    for char in input:
+        if not char.isspace():
+            ret = ret + char
+            prev2 = prev
+            prev = char
+        elif char != prev:
+            ret = ret + char
+            prev2 = prev
+            prev = char
+        elif char == '\n' and char == prev and prev != prev2:
+            ret = ret + char
+            prev2 = prev
+            prev = char
+    return ret
 
 def parse(input):
     '''Top level function. Put the iCal file text here.
