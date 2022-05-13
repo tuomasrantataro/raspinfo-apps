@@ -9,3 +9,11 @@ Remove extra whitespace from text
     "Remove many newlines \n removed?"              "Remove many newlines \n removed?"
     "Remove \ \ \ \ extra \ \ \ spaces"             "Remove extra spaces"
     "Don\'t remove \n\t different whitespaces"      "Don\'t remove \n\t different whitespaces"
+
+
+Transform timestamps to standard format
+    [Template]      Ts ${orig_timestamp} with offset ${timezone_offset} should become ${ISO_8601_timestamp}
+    "20020113"                      "00:00"         "20020113T00:00:00.000Z"
+    "20101016T13:45:05.001"         "-03:00"        "20101016T10:45:05.001Z"
+    "20200105"                      "+02:00"        "20200106T02:00:00.000Z"
+    "VALUE=DATE:20221010"           "00:00"         "20221010T00:00:00.000Z"
