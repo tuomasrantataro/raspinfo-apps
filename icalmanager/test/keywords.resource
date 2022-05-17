@@ -8,5 +8,5 @@ The text ${original} should become ${sanitized}
 
 
 Ts ${orig_timestamp} with offset ${timezone_offset} should become ${ISO_8601_timestamp}
-    ${timestamp_result} =     Transform Timestamp     ${timezone_offset}        ${orig_timestamp}
+    ${timestamp_result} =     Transform Timestamp       ${orig_timestamp}   ${timezone_offset} 
     Should Be Equal     ${timestamp_result}     ${ISO_8601_timestamp}
