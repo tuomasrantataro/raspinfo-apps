@@ -5,15 +5,30 @@ Resource        keywords.resource
 *** Test Cases ***
 Remove extra whitespace from text
     [Template]      The text ${original} should become ${sanitized}
-    "Remove many newlines \n\n\n\n\n removed?"      "Remove many newlines \n\n removed?"
-    "Remove many newlines \n removed?"              "Remove many newlines \n removed?"
-    "Remove \ \ \ \ extra \ \ \ spaces"             "Remove extra spaces"
-    "Don\'t remove \n\t different whitespaces"      "Don\'t remove \n\t different whitespaces"
+    Remove many newlines \n\n\n\n\n removed?      Remove many newlines \n\n removed?
+    Remove many newlines \n removed?              Remove many newlines \n removed?
+    Remove \ \ \ \ extra \ \ \ spaces             Remove extra spaces
+    Don\'t remove \n\t different whitespaces      Don\'t remove \n\t different whitespaces
 
+Transform timestamps to ISO 8601 format
+    [Template]      Ts ${orig_timestamp} should become ${ISO_8601_timestamp}
+    20101016T134505             2010-10-16T13:45:05+00:00
+    20101016T134505Z            2010-10-16T13:45:05+00:00
+    20220515T143000             2022-05-15T14:30:00+00:00
+    20220515T143000Z            2022-05-15T14:30:00+00:00
 
-Transform timestamps to standard format
-    [Template]      Ts ${orig_timestamp} with offset ${timezone_offset} should become ${ISO_8601_timestamp}
-    "20020113"                      "00:00"         "20020113T00:00:00.000Z"
-    "20101016T13:45:05.001"         "-03:00"        "20101016T10:45:05.001Z"
-    "20200105"                      "+02:00"        "20200106T02:00:00.000Z"
-    "VALUE=DATE:20221010"           "00:00"         "20221010T00:00:00.000Z"
+Transform timestamps to UTC
+    [Template]      ${timestamp} with offset ${timezone_offset} should become ${UTC_timestamp}
+    2004-10-09T11:04:23+01:00     +00:00        2004-10-09T10:04:23+00:00  # iso with tz data
+    2004-10-09T11:04:23-01:00     +00:00        2004-10-09T12:04:23+00:00  # iso with negative tz data
+    1992-04-13T08:08:13Z          +00:00        1992-04-13T08:08:13+00:00  # iso with Z marking UTC
+    2004-04-04T18:23:00Z          +01:00        2004-04-04T17:23:00+00:00  # iso with Z marking UTC, with separate tz
+    2004-04-04T18:23:00Z          -02:00        2004-04-04T20:23:00+00:00  # iso with Z marking UTC, with separate negative tz
+
+Transform dates to ISO 8601 format
+    [Template]      Date ${orig_date} should become ${ISO_8601_date}
+    20020113              2002-01-13
+    20200105              2020-01-06
+    VALUE=DATE:20221010   2022-10-10
+
+#TODO: add tests for daylight saving time
