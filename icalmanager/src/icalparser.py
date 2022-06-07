@@ -6,6 +6,8 @@ Parses the needed data from iCal file into form which is useful for other apps.
 This means mostly discarding data not needed, but also converting timestamps to
 a standard form and removing extra whitespace and escape characters.'''
 
+__name__ = 'icalparser'
+
 def _remove_past_events(events):
     '''Remove events which have ended from the list.
     
@@ -84,38 +86,138 @@ def _transform_timestamp(timestamp, offset="+00:00"):
     else:
         return t.isoformat()
 
-def _sanitize_text(input):
-    '''Sanitizes text fields.
+def _fix_escapes(input):
+    '''Change escaped characters in text to real escaped characters'''
+    ret = ''
+    prev = ''
 
-    Removes extra whitespace and escape characters from the text given.
+    for char in input:
+        if char == '\\' and prev == '\\':
+            ret = ret + '\\'
+        elif char == 'n' and prev == '\\':
+            ret = ret + '\n'
+        elif char == 't' and prev == '\\':
+            ret = ret + '\t'
+        elif char == 'r' and prev == '\\':
+            ret = ret
+        elif char == '\\':
+            # Escaped some character which python handles fine, remove escape backslash
+            ret = ret
+        else:
+            ret = ret + char
+        prev = char
 
-    When a whitespace character appears multiple times in row, leave only
-    one, except in case of newline, leave two.
-    
-    When an escaped character (e.g. \') is found, transform to SQL-accepted
-    form.
-    
-    Returns the sanitized text as a string.'''
+    return ret
+
+def _remove_extra_whitespace(input):
     ret = ""
     prev = ''
     prev2 = ''
+
     for char in input:
         if not char.isspace():
             ret = ret + char
             prev2 = prev
             prev = char
         elif char != prev:
+            # not the same (whitespace) character after each other
             ret = ret + char
             prev2 = prev
             prev = char
-        elif char == '\n' and char == prev and prev != prev2:
-            ret = ret + char
+        elif char == '\n' and char == prev:
+            # Allow two whitespaces after each other
+            if prev2 != '\n':
+                # Don't allow more than two
+                ret = ret + char
             prev2 = prev
             prev = char
+        else:
+            # Two (or more) of any other same whitespace after each other
+            prev2 = prev
+            prev = char
+
+    return ret
+    
+
+def _sanitize_text(input):
+    '''Sanitizes text fields.
+
+    Removes extra whitespace and escape characters from the text given.
+
+    When a whitespace character appears multiple times in row, leave only one,
+    except in case of newline, leave two.
+    
+    When an escaped character (e.g. \') is found, leave only escapes which are
+    needed in Python
+    
+    Returns the sanitized text as a string.'''
+
+    input = _fix_escapes(input)
+
+    input = _remove_extra_whitespace(input)
+
+    return input
+
+def _lines_to_list(input_file) -> list[str]:
+    lines = []
+    partial = ''
+    for line in input_file.readline():
+        if line != '\n':
+            partial = partial + line
+        else:
+            lines.append(partial)
+            partial = ''
+
+    combined = []
+    for item in lines:
+        if item.startswith(' '):
+            combined[-1] = combined[-1] + item.lstrip()
+        else:
+            combined.append(item)
+    
+    return combined
+
+def _parse_event(event_data : list([str, str])) -> dict[str : str]:
+    ret = {}
+    keys = ['UID', 'DTSTART', 'DTEND', 'SUMMARY', 'DESCRIPTION', 'LOCATION']
+
+    for item in event_data:
+        if item[0] in keys:
+            if item[0] in ['DTSTART', 'DTEND']:
+                item[1] = _transform_timestamp(item[1])
+            if item[0] in ['SUMMARY', 'DESCRIPTION', 'LOCATION']:
+                item[1] = _sanitize_text(item[1])
+            ret[item[0]] = item[1]
+
     return ret
 
-def parse(input):
-    '''Top level function. Put the iCal file text here.
+def parse(input_file):
+    '''Top level function. Put the iCal file here.
+
+    input_file:
+    Opened iCal (.ics) file 
     
     Returns a list of dicts, where each dict is info about one event.'''
-    raise NotImplementedError
+    ret = []
+
+    event_data = []
+    reading_event = False
+
+    lines = _lines_to_list(input_file)
+    for item in lines:
+
+        parts = item.split(';', maxsplit=1)
+        if len(parts) == 1:
+            parts = item.split(':', maxsplit=1)
+        
+        if item == 'BEGIN:VEVENT':
+            reading_event = True
+            event_data = []
+        elif item == 'END:VEVENT':
+            reading_event = False
+            parsed = _parse_event(event_data)
+            ret.append(parsed)
+        elif reading_event == True:
+            event_data.append([parts[0], parts[1]])
+    
+    return ret
