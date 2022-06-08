@@ -1,6 +1,12 @@
 *** Settings ***
 Documentation   Tests for iCal parser
 Resource        keywords.resource
+Variables       parser_variables.py
+
+*** Variables ***
+&{Event 1}  SUMMARY=Abraham Lincoln  DTSTART=2008-02-12  DTEND=2008-02-13  LOCATION=Hodgenville, Kentucky
+...         DESCRIPTION=Born February 12, 1809\nSixteenth President (1861-1865)\n\nhttp://AmericanHistoryCalendar.com
+...         UID=c7614cff-3549-4a00-9152-d25cc1fe077d
 
 *** Test Cases ***
 Remove extra whitespace from text
@@ -32,3 +38,9 @@ Transform dates to ISO 8601 format
     VALUE=DATE:20221010   2022-10-10
 
 #TODO: add tests for daylight saving time
+
+Create events from iCal file
+    [Template]      Events from ${ics_file} should match with ${event}
+    calendar_data.ics       @{CAL_ITEMS}
+
+Remove past events

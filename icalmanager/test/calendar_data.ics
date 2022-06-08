@@ -1,0 +1,77 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ZContent.net//Zap Calendar 1.0//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Abraham Lincoln
+UID:c7614cff-3549-4a00-9152-d25cc1fe077d
+SEQUENCE:0
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTH=2;BYMONTHDAY=12
+DTSTART:20080212
+DTEND:20080213
+DTSTAMP:20150421T141403
+CATEGORIES:U.S. Presidents,Civil War People
+LOCATION:Hodgenville\, Kentucky
+GEO:37.5739497;-85.7399606
+DESCRIPTION:Born February 12\, 1809\nSixteenth President (1861-1865)\n\n\n
+ \nhttp://AmericanHistoryCalendar.com
+URL:http://americanhistorycalendar.com/peoplecalendar/1,328-abraham-lincol
+ n
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20220515T143000Z
+DTEND:20220515T203000Z
+DTSTAMP:20220506T161003Z
+UID:chhj0p35chj64b9icgo32b9k69gm2b9p60pjeb9p6gom2eb168r3gchg70@google.com
+CREATED:20220506T120521Z
+DESCRIPTION:
+LAST-MODIFIED:20220506T120521Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Lakkisitsit
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20220520
+DTEND;VALUE=DATE:20220521
+DTSTAMP:20220506T161003Z
+UID:7oug23lj6rs9bbmjkpahdb48br@google.com
+CREATED:20220126T123628Z
+DESCRIPTION:
+LAST-MODIFIED:20220421T120506Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Kauden kaato
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20220511T140000Z
+DTEND:20220511T180000Z
+DTSTAMP:20220506T161003Z
+UID:4uk4ue4k7dk46aluk2eh02fpem@google.com
+CREATED:20220405T073611Z
+DESCRIPTION:Keskiviikkona 11.5. klo 17–21 järjestetään keskustelutilaisuus 
+ kiltahuoneella vuoden suunnitteilla olevista sääntömuutoksista. Paikalle sa
+ a tulla kuuntelemaan\, kysymään tai jakamaan omia ajatuksiaan päivän aiheis
+ ta. Henna ja Rosanna pitävät tilaisuuden alussa pienen presiksin käsiteltäv
+ istä aiheista. \n\nKeskustellaan vuosikokouksessa ilmenneistä korjausehdotu
+ ksista killan ansiomerkkeihin (PTK maininta pois kultaisen määritelmästä) j
+ a uusi maininta Joku MUU -palkinnosta. Puheenaiheena on myös hallituksen ma
+ ksimikoon nosto tai poistaminen.\n\nKeskustelutilaisuuteen ovat tervetullei
+ ta kaikki vuosikurssiin katsomatta ja tilaisuuden idea onkin herättää kesku
+ stelua aiheesta killassa mahdollisimman laajalla otannalla. \n\nKeskustelut
+ ilaisuudessa ei päätetä mitään\, joten paikalle voi tulla vain rauhassa pöh
+ isemään.
+LAST-MODIFIED:20220405T074642Z
+LOCATION:Kiltis
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Sääntömuutos keskustelutilaisuus
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

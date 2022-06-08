@@ -18,5 +18,14 @@ ${timestamp} with offset ${timezone_offset} should become ${UTC_timestamp}
 
 
 Date ${orig_date} should become ${ISO_8601_date}
-    ${date_result} =   Transform Timestamp     ${ISO_8601_date}
+    ${date_result} =    Transform Timestamp     ${ISO_8601_date}
     Should Be Equal     ${date_result}      ${ISO_8601_date}
+
+
+Events from ${ics_file} should match with ${event}
+    @{event_list} =     Parse   ${ics_file}
+    FOR     ${index}    ${event_item}   IN ENUMERATE    @{event_list}
+        FOR     ${event_data_key}   ${event_data}   IN  &{event_item}
+            Should Be Equal     ${event_list}[${index}][${event_data_key}]   ${event}[${index}][${event_data_key}]
+        END
+    END

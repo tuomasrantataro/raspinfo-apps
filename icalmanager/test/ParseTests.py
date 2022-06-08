@@ -14,3 +14,11 @@ class ParseTests(object):
 
     def sanitize_text(self, text):
         return icalparser._sanitize_text(text)
+
+    def parse(self, ical_file) -> list[dict]:
+        path = ical_file
+        with open(path, 'r', newline='\r\n') as f:
+            events = icalparser.parse(f)
+        f.close()
+
+        return events
