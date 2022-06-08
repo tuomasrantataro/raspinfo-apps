@@ -13,10 +13,11 @@ Remove extra whitespace from text
 
 Transform timestamps to ISO 8601 format
     [Template]      Ts ${orig_timestamp} should become ${ISO_8601_timestamp}
-    20101016T134505             2010-10-16T13:45:05+00:00
-    20101016T134505Z            2010-10-16T13:45:05+00:00
-    20220515T143000             2022-05-15T14:30:00+00:00
-    20220515T143000Z            2022-05-15T14:30:00+00:00
+    20101016T134505                         2010-10-16T13:45:05+00:00
+    20101016T134505Z                        2010-10-16T13:45:05+00:00
+    20220515T143000                         2022-05-15T14:30:00+00:00
+    20220515T143000Z                        2022-05-15T14:30:00+00:00
+    TZID=Europe/Helsinki:20220127T190000    2022-01-27T17:00:00+00:00   # no DST in winter
 
 Transform timestamps to UTC
     [Template]      ${timestamp} with offset ${timezone_offset} should become ${UTC_timestamp}
