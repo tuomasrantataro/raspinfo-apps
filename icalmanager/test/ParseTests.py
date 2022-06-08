@@ -22,3 +22,6 @@ class ParseTests(object):
         f.close()
 
         return events
+
+    def remove_past(self, events):
+        return icalparser._remove_past_events(events)

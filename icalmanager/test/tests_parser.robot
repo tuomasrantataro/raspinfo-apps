@@ -35,7 +35,8 @@ Transform dates to ISO 8601 format
 #TODO: add tests for daylight saving time
 
 Create events from iCal file
-    [Template]      Events from ${ics_file} should match with ${event}
-    calendar_data.ics       @{CAL_ITEMS}
+    Events from calendar_data.ics should match with @{CAL_ITEMS}      
 
+#TODO: add more strict tests, for example next to DST change
 Remove past events
+    Events from @{CAL_ITEMS} should not contain past events

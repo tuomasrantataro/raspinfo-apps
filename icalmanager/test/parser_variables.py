@@ -15,8 +15,8 @@ _item2 = {'SUMMARY'     : "Lakkisitsit",
 
 _item3 = {'SUMMARY'     : "Kauden kaato",
           'UID'         : "7oug23lj6rs9bbmjkpahdb48br@google.com",
-          'DTSTART'     : "2022-05-20",
-          'DTEND'       : "2022-05-21",
+          'DTSTART'     : "2042-05-20",
+          'DTEND'       : "2042-05-21",
           'LOCATION'    : "",
           'DESCRIPTION' : ""}
 
