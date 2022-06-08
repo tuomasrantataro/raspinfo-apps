@@ -27,4 +27,11 @@ _item4 = {'SUMMARY'     : "Sääntömuutos keskustelutilaisuus",
           'LOCATION'    : "Kiltis",
           'DESCRIPTION' : "Keskiviikkona 11.5. klo 17–21 järjestetään keskustelutilaisuus kiltahuoneella vuoden suunnitteilla olevista sääntömuutoksista. Paikalle saa tulla kuuntelemaan, kysymään tai jakamaan omia ajatuksiaan päivän aiheista. Henna ja Rosanna pitävät tilaisuuden alussa pienen presiksin käsiteltävistä aiheista. \n\nKeskustellaan vuosikokouksessa ilmenneistä korjausehdotuksista killan ansiomerkkeihin (PTK maininta pois kultaisen määritelmästä) ja uusi maininta Joku MUU -palkinnosta. Puheenaiheena on myös hallituksen maksimikoon nosto tai poistaminen.\n\nKeskustelutilaisuuteen ovat tervetulleita kaikki vuosikurssiin katsomatta ja tilaisuuden idea onkin herättää keskustelua aiheesta killassa mahdollisimman laajalla otannalla. \n\nKeskustelutilaisuudessa ei päätetä mitään, joten paikalle voi tulla vain rauhassa pöhisemään."}
 
-LIST__CAL_ITEMS = [_item1, _item2, _item3, _item4]
+_item5 = {'SUMMARY'     : "Hallituksen kokous 34/2021",
+          'UID'         : "725qa2m371aqob7rlcvtqcti55@google.com",
+          'DTSTART'     : "2021-10-28T13:15:00+00:00",
+          'DTEND'       : "2021-10-28T15:15:00+00:00",
+          'LOCATION'    : "",
+          'DESCRIPTION' : ""}
+
+LIST__CAL_ITEMS = [_item1, _item2, _item3, _item4, _item5]

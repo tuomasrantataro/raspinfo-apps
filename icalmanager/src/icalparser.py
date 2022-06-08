@@ -1,4 +1,5 @@
 from datetime import datetime, date, time, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 '''Parser for iCal data
 
@@ -22,7 +23,7 @@ def _remove_past_events(events):
             
     return ret
 
-def _timestamp_to_datetime(timestamp):
+def _timestamp_to_datetime(timestamp, tz):
     '''Create date/datetime object from string.
     
     Detect some common timestamp string types and convert
@@ -53,7 +54,7 @@ def _timestamp_to_datetime(timestamp):
     if time_ == None:
         return date(date_.year, date_.month, date_.day)
     else:
-        return datetime(date_.year, date_.month, date_.day, time_.hour, time_.minute, time_.second)
+        return datetime(date_.year, date_.month, date_.day, time_.hour, time_.minute, time_.second, tzinfo=tz)
 
 def _transform_timestamp(timestamp, offset="+00:00"):
     '''Transforms timestamps to standard form and UTC time.
@@ -69,6 +70,15 @@ def _transform_timestamp(timestamp, offset="+00:00"):
     timestamp = timestamp.removeprefix("VALUE=DATE:")
     timestamp = timestamp.removesuffix("Z")
 
+    tz = ZoneInfo('UTC')
+
+    if timestamp.startswith("TZID="):
+        # format is something like TZID=Europe/Helsinki:20220127T190000
+        tz_name = timestamp.split('=')[1].split(':')[0]
+        tz = ZoneInfo(tz_name)
+
+        timestamp = timestamp.lstrip("TZID=" + tz_name + ':')
+
     try:
         t = date.fromisoformat(timestamp)
     except ValueError:
@@ -82,17 +92,17 @@ def _transform_timestamp(timestamp, offset="+00:00"):
             else:
                 os = t_.utcoffset()
             t_ = t_ - os
-            t = datetime(t_.year, t_.month, t_.day, t_.hour, t_.minute, t_.second)
+            t = datetime(t_.year, t_.month, t_.day, t_.hour, t_.minute, t_.second, tzinfo=tz)
         except ValueError:
-            t = _timestamp_to_datetime(timestamp)
+            t = _timestamp_to_datetime(timestamp, tz)
 
     if isinstance(t, datetime):
         offset_ = time.fromisoformat('00'+offset)
         t = t - offset_.utcoffset()
 
-        return t.isoformat() + "+00:00"
-    else:
-        return t.isoformat()
+        t = t.astimezone(ZoneInfo('UTC'))
+
+    return t.isoformat()
 
 def _fix_escapes(input):
     '''Change escaped characters in text to real escaped characters'''
@@ -167,23 +177,19 @@ def _sanitize_text(input):
     return input
 
 def _lines_to_list(input_file) -> list[str]:
-    lines = []
-    partial = ''
-    for line in input_file.readline():
-        if line != '\n':
-            partial = partial + line
-        else:
-            lines.append(partial)
-            partial = ''
-
-    combined = []
-    for item in lines:
-        if item.startswith(' '):
-            combined[-1] = combined[-1] + item.lstrip()
-        else:
-            combined.append(item)
+    '''Make a list of lines from the file
     
-    return combined
+    This function removes the '\r\n' line endings and combines multiline items
+    in the file'''
+
+    lines = []
+    for line in input_file:
+        if line.startswith(' '):
+            lines[-1] = lines[-1] + line.lstrip(' ').rstrip('\r\n')
+        else:
+            lines.append(line.rstrip('\r\n'))
+    
+    return lines
 
 def _parse_event(event_data : list([str, str])) -> dict[str : str]:
     ret = {}
