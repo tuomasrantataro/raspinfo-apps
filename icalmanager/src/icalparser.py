@@ -1,4 +1,4 @@
-from datetime import datetime, date, time, timedelta
+from datetime import datetime, date, time, timedelta, timezone
 
 '''Parser for iCal data
 
@@ -12,7 +12,15 @@ def _remove_past_events(events):
     '''Remove events which have ended from the list.
     
     Returns a list of dicts with only current and future events.'''
-    raise NotImplementedError
+    ret = []
+    for item in events:
+        dt = datetime.fromisoformat(item['DTEND'])
+        dt_ = datetime.combine(dt.date(), dt.time(), timezone.utc)
+
+        if dt_ >= datetime.now(timezone.utc):
+            ret.append(item)
+            
+    return ret
 
 def _timestamp_to_datetime(timestamp):
     '''Create date/datetime object from string.
@@ -50,11 +58,11 @@ def _timestamp_to_datetime(timestamp):
 def _transform_timestamp(timestamp, offset="+00:00"):
     '''Transforms timestamps to standard form and UTC time.
     
-    The iCal format accepts many different time representations.
-    Change them all to a single standard for easier future use.
-    The format used is "2012-04-23T18:25:43+00:00", which is commonly
-    in use and follows ISO 8601. Offset (from timezone and DST) should
-    be in format "±HH:MM"
+    The iCal format accepts many different time representations. Change them
+    all to a single standard for easier future use. The format used is
+    "2012-04-23T18:25:43+00:00", which is commonly in use and follows ISO 8601.
+    Offset (from timezone and DST) should be in format "±HH:MM". In case of
+    all-day events, the timestamp format is "2012-04-23"
     
     Returns timestamp as a string.'''
     
