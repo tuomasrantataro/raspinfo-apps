@@ -3,11 +3,6 @@ Documentation   Tests for iCal parser
 Resource        keywords.resource
 Variables       parser_variables.py
 
-*** Variables ***
-&{Event 1}  SUMMARY=Abraham Lincoln  DTSTART=2008-02-12  DTEND=2008-02-13  LOCATION=Hodgenville, Kentucky
-...         DESCRIPTION=Born February 12, 1809\nSixteenth President (1861-1865)\n\nhttp://AmericanHistoryCalendar.com
-...         UID=c7614cff-3549-4a00-9152-d25cc1fe077d
-
 *** Test Cases ***
 Remove extra whitespace from text
     [Template]      The text ${original} should become ${sanitized}
