@@ -18,8 +18,10 @@ class ParseTests(object):
     def parse(self, ical_file) -> list[dict]:
         path = ical_file
         with open(path, 'r', newline='\r\n') as f:
-            events = icalparser.parse(f)
+            data = f.read()
         f.close()
+
+        events = icalparser.parse(data)
 
         return events
 

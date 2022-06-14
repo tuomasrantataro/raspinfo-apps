@@ -176,20 +176,22 @@ def _sanitize_text(input):
 
     return input
 
-def _lines_to_list(input_file) -> list[str]:
+def _lines_to_list(input_text) -> list[str]:
     '''Make a list of lines from the file
     
     This function removes the '\r\n' line endings and combines multiline items
     in the file'''
 
-    lines = []
-    for line in input_file:
+    lines = input_text.split('\r\n')
+
+    full_lines = []
+    for line in lines:
         if line.startswith(' '):
-            lines[-1] = lines[-1] + line.lstrip(' ').rstrip('\r\n')
+            full_lines[-1] = full_lines[-1] + line.lstrip(' ').rstrip('\r\n')
         else:
-            lines.append(line.rstrip('\r\n'))
+            full_lines.append(line.rstrip('\r\n'))
     
-    return lines
+    return full_lines
 
 def _parse_event(event_data : list([str, str])) -> dict[str : str]:
     ret = {}
@@ -202,6 +204,9 @@ def _parse_event(event_data : list([str, str])) -> dict[str : str]:
             if item[0] in ['SUMMARY', 'DESCRIPTION', 'LOCATION']:
                 item[1] = _sanitize_text(item[1])
             ret[item[0]] = item[1]
+    for key in keys:
+        if not key in ret.keys():
+            ret[key] = ""
 
     return ret
 
