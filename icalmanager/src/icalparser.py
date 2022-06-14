@@ -238,5 +238,7 @@ def parse(input_file):
             ret.append(parsed)
         elif reading_event == True:
             event_data.append([parts[0], parts[1]])
+
+    ret = _remove_past_events(ret)
     
     return ret
