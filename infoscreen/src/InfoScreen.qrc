@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>InfoScreen.qml</file>
+        <file>./components/EventDelegate.qml</file>
+        <file>./components/formDateString.js</file>
+    </qresource>
+</RCC>
